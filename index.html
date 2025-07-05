@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neo-Brutalist Soundboard</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for the Neo-Brutalism aesthetic */
+        body {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        /* Custom harsh box-shadow utility */
+        .shadow-harsh {
+            box-shadow: 8px 8px 0px #000000;
+        }
+        
+        .shadow-harsh-sm {
+            box-shadow: 4px 4px 0px #000000;
+        }
+
+        /* Active state for buttons to simulate being pressed */
+        .btn-press:active {
+            transform: translate(4px, 4px);
+            box-shadow: 4px 4px 0px #000000;
+        }
+        
+        .title-shadow {
+            text-shadow: 4px 4px 0px #000;
+        }
+    </style>
+</head>
+<body class="bg-yellow-300 antialiased">
+
+    <!-- Main Container -->
+    <div class="container mx-auto p-4 sm:p-8 min-h-screen flex flex-col items-center justify-center">
+
+        <!-- Header -->
+        <header class="mb-8 text-center">
+            <h1 class="text-5xl md:text-7xl font-extrabold text-black uppercase border-4 border-black bg-white p-4 shadow-harsh title-shadow">
+                Sound Box
+            </h1>
+            <p id="start-prompt" class="mt-4 text-lg text-black bg-white border-2 border-black inline-block p-2">
+                Click any button to start
+            </p>
+        </header>
+
+        <!-- Soundboard Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 w-full max-w-2xl">
+            <!-- Sound Button 1: Among Us Trap -->
+            <button data-sound="among_us_trap" class="sound-btn btn-press aspect-square w-full bg-pink-500 text-white border-4 border-black shadow-harsh transition-transform duration-100 ease-in-out">
+                <span class="text-2xl font-bold">AMONG US TRAP</span>
+            </button>
+            <!-- Sound Button 2: Role Reveal -->
+            <button data-sound="role_reveal" class="sound-btn btn-press aspect-square w-full bg-blue-500 text-white border-4 border-black shadow-harsh transition-transform duration-100 ease-in-out">
+                <span class="text-2xl font-bold">ROLE REVEAL</span>
+            </button>
+            <!-- Sound Button 3: Discord -->
+            <button data-sound="discord" class="sound-btn btn-press aspect-square w-full bg-green-500 text-black border-4 border-black shadow-harsh transition-transform duration-100 ease-in-out">
+                <span class="text-2xl font-bold">DISCORD</span>
+            </button>
+            <!-- Sound Button 4: Movie 1 -->
+            <button data-sound="movie_1" class="sound-btn btn-press aspect-square w-full bg-purple-500 text-white border-4 border-black shadow-harsh transition-transform duration-100 ease-in-out">
+                <span class="text-2xl font-bold">MOVIE 1</span>
+            </button>
+            <!-- Sound Button 5: Vine Boom -->
+            <button data-sound="vine_boom" class="sound-btn btn-press aspect-square w-full bg-orange-500 text-black border-4 border-black shadow-harsh transition-transform duration-100 ease-in-out">
+                <span class="text-2xl font-bold">VINE BOOM</span>
+            </button>
+            <!-- Sound Button 6: Rizz -->
+            <button data-sound="rizz" class="sound-btn btn-press aspect-square w-full bg-red-500 text-white border-4 border-black shadow-harsh transition-transform duration-100 ease-in-out">
+                <span class="text-2xl font-bold">RIZZ</span>
+            </button>
+            <!-- Sound Button 7: Apple Pay -->
+            <button data-sound="applepay" class="sound-btn btn-press aspect-square w-full bg-yellow-500 text-black border-4 border-black shadow-harsh transition-transform duration-100 ease-in-out">
+                <span class="text-2xl font-bold">APPLE PAY</span>
+            </button>
+            <!-- Sound Button 8: Spongebob Fail -->
+            <button data-sound="spongebob_fail" class="sound-btn btn-press aspect-square w-full bg-blue-300 text-black border-4 border-black shadow-harsh transition-transform duration-100 ease-in-out">
+                <span class="text-2xl font-bold">SPONGEBOB FAIL</span>
+            </button>
+            <!-- Sound Button 9: Anime Wow -->
+            <button data-sound="anime_wow" class="sound-btn btn-press aspect-square w-full bg-pink-300 text-black border-4 border-black shadow-harsh transition-transform duration-100 ease-in-out">
+                <span class="text-2xl font-bold">ANIME WOW</span>
+            </button>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="mt-12">
+            <p class="text-black bg-white border-2 border-black p-2 shadow-harsh-sm">
+                Powered by <a hraf="https://danielmorrisey.com">MBD Cloud</a>
+            </p>
+        </footer>
+
+    </div>
+
+    <script src="soundboard.js"></script>
+</body>
+</html>
