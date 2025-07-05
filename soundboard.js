@@ -109,11 +109,27 @@ function renderFavorites() {
     favorites.forEach(sound => {
         if (!soundFiles[sound]) return;
         const btn = document.createElement('button');
-        btn.className = 'sound-btn btn-press aspect-square w-full bg-yellow-200 text-black border-4 border-black shadow-harsh transition-transform duration-100 ease-in-out mb-2';
+        btn.className = 'sound-btn btn-press aspect-square w-full bg-yellow-200 text-black border-4 border-black shadow-harsh transition-transform duration-100 ease-in-out mb-2 flex flex-col items-center justify-center';
         btn.dataset.sound = sound;
-        btn.innerHTML = `<span class="text-2xl font-bold">${getSoundLabel(sound)}</span> <span class="favorite-star ml-2">★</span>`;
         btn.onclick = () => playSound(sound);
+        btn.innerHTML = `<span class="text-2xl font-bold">${getSoundLabel(sound)}</span> <span class="favorite-star ml-2">★</span>` +
+            `<a href="${soundFiles[sound]}" download class="mt-2 text-xs bg-white border-2 border-black rounded px-2 py-1 hover:bg-black hover:text-white transition-colors">Download</a>`;
         favGrid.appendChild(btn);
+    });
+}
+
+// Add download buttons to all sound buttons
+function addDownloadButtons() {
+    document.querySelectorAll('.sound-btn').forEach(btn => {
+        const sound = btn.dataset.sound;
+        if (!soundFiles[sound]) return;
+        if (btn.querySelector('.download-btn')) return; // Prevent duplicate
+        const dl = document.createElement('a');
+        dl.href = soundFiles[sound];
+        dl.download = '';
+        dl.textContent = 'Download';
+        dl.className = 'download-btn mt-2 text-xs bg-white border-2 border-black rounded px-2 py-1 hover:bg-black hover:text-white transition-colors block';
+        btn.appendChild(dl);
     });
 }
 
@@ -128,3 +144,4 @@ function getSoundLabel(sound) {
 // Initial render
 renderFavorites();
 updateButtonStars();
+addDownloadButtons();
