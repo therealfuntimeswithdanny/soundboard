@@ -12,7 +12,21 @@ const soundFiles = {
     'rizz': 'sounds/rizz-sound-effect.mp3',
     'applepay': 'sounds/applepay.mp3',
     'spongebob_fail': 'sounds/spongebob-fail.mp3',
-    'anime_wow': 'sounds/anime-wow-sound-effect.mp3'
+    'anime_wow': 'sounds/anime-wow-sound-effect.mp3',
+    'roblox_death': 'sounds/roblox-death-sound_1.mp3',
+    'hub_intro': 'sounds/hub-intro-sound.mp3',
+    'metal_pipe': 'sounds/metal-pipe-clang.mp3',
+    'emotional_damage': 'sounds/emotional-damage-meme.mp3',
+    'rizz_sounds': 'sounds/rizz-sounds.mp3',
+    'sad_meow': 'sounds/sad-meow-song.mp3',
+    'undertaker_bell': 'sounds/undertakers-bell_2UwFCIe.mp3',
+    'downer_noise': 'sounds/downer_noise.mp3',
+    'gta_san_andreas': 'sounds/gta-san-andreas-ah-shit-here-we-go-again_BWv0Gvc.mp3',
+    'discord_call': 'sounds/discord-call-sound.mp3',
+    'erro': 'sounds/erro.mp3',
+    'maro_jump': 'sounds/maro-jump-sound-effect_1.mp3',
+    'discord_leave': 'sounds/discord-leave-noise.mp3',
+    'chicken_jockey': 'sounds/chicken-jockey.mp3'
 };
 
 // Preload audio elements
