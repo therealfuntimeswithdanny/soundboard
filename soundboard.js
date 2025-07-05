@@ -61,3 +61,70 @@ function playSound(sound) {
     audio.currentTime = 0;
     audio.play();
 }
+
+// --- FAVORITES FEATURE ---
+const FAVORITES_KEY = 'mbd_soundboard_favorites';
+let favorites = JSON.parse(localStorage.getItem(FAVORITES_KEY) || '[]');
+
+function saveFavorites() {
+    localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
+}
+
+function isFavorite(sound) {
+    return favorites.includes(sound);
+}
+
+function toggleFavorite(sound) {
+    if (isFavorite(sound)) {
+        favorites = favorites.filter(fav => fav !== sound);
+    } else {
+        favorites.push(sound);
+    }
+    saveFavorites();
+    renderFavorites();
+    updateButtonStars();
+}
+
+function updateButtonStars() {
+    document.querySelectorAll('.sound-btn').forEach(btn => {
+        const sound = btn.dataset.sound;
+        let star = btn.querySelector('.favorite-star');
+        if (!star) {
+            star = document.createElement('span');
+            star.className = 'favorite-star ml-2';
+            btn.querySelector('span').after(star);
+        }
+        star.textContent = isFavorite(sound) ? '★' : '☆';
+        star.style.cursor = 'pointer';
+        star.onclick = e => {
+            e.stopPropagation();
+            toggleFavorite(sound);
+        };
+    });
+}
+
+function renderFavorites() {
+    const favGrid = document.getElementById('favorites-grid');
+    favGrid.innerHTML = '';
+    favorites.forEach(sound => {
+        if (!soundFiles[sound]) return;
+        const btn = document.createElement('button');
+        btn.className = 'sound-btn btn-press aspect-square w-full bg-yellow-200 text-black border-4 border-black shadow-harsh transition-transform duration-100 ease-in-out mb-2';
+        btn.dataset.sound = sound;
+        btn.innerHTML = `<span class="text-2xl font-bold">${getSoundLabel(sound)}</span> <span class="favorite-star ml-2">★</span>`;
+        btn.onclick = () => playSound(sound);
+        favGrid.appendChild(btn);
+    });
+}
+
+function getSoundLabel(sound) {
+    // Map sound keys to button labels (fallback to key)
+    const labels = {
+        among_us_trap: 'AMONG US TRAP', role_reveal: 'ROLE REVEAL', discord: 'DISCORD', movie_1: 'MOVIE 1', vine_boom: 'VINE BOOM', rizz: 'RIZZ', applepay: 'APPLE PAY', spongebob_fail: 'SPONGEBOB FAIL', anime_wow: 'ANIME WOW', roblox_death: 'ROBLOX DEATH', hub_intro: 'HUB INTRO', metal_pipe: 'METAL PIPE', emotional_damage: 'EMOTIONAL DAMAGE', rizz_sounds: 'RIZZ SOUNDS', sad_meow: 'SAD MEOW', undertaker_bell: 'UNDERTAKER BELL', downer_noise: 'DOWNER NOISE', gta_san_andreas: 'GTA SAN ANDREAS', discord_call: 'DISCORD CALL', erro: 'ERRO', maro_jump: 'MARO JUMP', discord_leave: 'DISCORD LEAVE', chicken_jockey: 'CHICKEN JOCKEY'
+    };
+    return labels[sound] || sound;
+}
+
+// Initial render
+renderFavorites();
+updateButtonStars();
