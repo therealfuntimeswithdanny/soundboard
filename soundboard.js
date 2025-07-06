@@ -109,27 +109,47 @@ function renderFavorites() {
     favorites.forEach(sound => {
         if (!soundFiles[sound]) return;
         const btn = document.createElement('button');
-        btn.className = 'sound-btn btn-press aspect-square w-full bg-yellow-200 text-black border-4 border-black shadow-harsh transition-transform duration-100 ease-in-out mb-2 flex flex-col items-center justify-center';
+        btn.className = 'sound-btn btn-press aspect-square w-full border-4 border-black shadow-harsh transition-transform duration-100 ease-in-out mb-2 flex flex-col items-center justify-center group relative overflow-hidden';
         btn.dataset.sound = sound;
         btn.onclick = () => playSound(sound);
-        btn.innerHTML = `<span class="text-2xl font-bold">${getSoundLabel(sound)}</span> <span class="favorite-star ml-2">★</span>` +
-            `<a href="${soundFiles[sound]}" download class="mt-2 text-xs bg-white border-2 border-black rounded px-2 py-1 hover:bg-black hover:text-white transition-colors">Download</a>`;
+        btn.innerHTML = `
+            <span class="text-2xl font-bold">${getSoundLabel(sound)}</span>
+            <div class="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-black/10">
+                <div class="flex gap-2 mb-2">
+                    <button class="icon-play bg-white rounded-full p-2 text-black border-2 border-black hover:bg-black hover:text-white" title="Play"><i class="fa-solid fa-play"></i></button>
+                    <button class="icon-fav bg-white rounded-full p-2 text-black border-2 border-black hover:bg-yellow-400 hover:text-black" title="Favorite"><i class="fa-solid fa-star"></i></button>
+                    <a href="${soundFiles[sound]}" download class="icon-download bg-white rounded-full p-2 text-black border-2 border-black hover:bg-green-500 hover:text-white" title="Download"><i class="fa-solid fa-download"></i></a>
+                </div>
+            </div>`;
+        // Icon actions
+        btn.querySelector('.icon-play').onclick = e => { e.stopPropagation(); playSound(sound); };
+        btn.querySelector('.icon-fav').onclick = e => { e.stopPropagation(); toggleFavorite(sound); };
         favGrid.appendChild(btn);
     });
 }
 
 // Add download buttons to all sound buttons
 function addDownloadButtons() {
-    document.querySelectorAll('.sound-btn').forEach(btn => {
+    document.querySelectorAll('#soundboard-grid .sound-btn').forEach((btn, i) => {
         const sound = btn.dataset.sound;
         if (!soundFiles[sound]) return;
-        if (btn.querySelector('.download-btn')) return; // Prevent duplicate
-        const dl = document.createElement('a');
-        dl.href = soundFiles[sound];
-        dl.download = '';
-        dl.textContent = 'Download';
-        dl.className = 'download-btn mt-2 text-xs bg-white border-2 border-black rounded px-2 py-1 hover:bg-black hover:text-white transition-colors block';
-        btn.appendChild(dl);
+        // Remove old icon container if exists
+        let iconDiv = btn.querySelector('.icon-hover-group');
+        if (iconDiv) iconDiv.remove();
+        // Add icon hover group
+        iconDiv = document.createElement('div');
+        iconDiv.className = 'icon-hover-group absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-black/10';
+        iconDiv.innerHTML = `
+            <div class="flex gap-2 mb-2">
+                <button class="icon-play bg-white rounded-full p-2 text-black border-2 border-black hover:bg-black hover:text-white" title="Play"><i class="fa-solid fa-play"></i></button>
+                <button class="icon-fav bg-white rounded-full p-2 text-black border-2 border-black hover:bg-yellow-400 hover:text-black" title="Favorite"><i class="fa-solid fa-star"></i></button>
+                <a href="${soundFiles[sound]}" download class="icon-download bg-white rounded-full p-2 text-black border-2 border-black hover:bg-green-500 hover:text-white" title="Download"><i class="fa-solid fa-download"></i></a>
+            </div>`;
+        btn.appendChild(iconDiv);
+        btn.classList.add('group', 'relative', 'overflow-hidden');
+        // Icon actions
+        iconDiv.querySelector('.icon-play').onclick = e => { e.stopPropagation(); playSound(sound); };
+        iconDiv.querySelector('.icon-fav').onclick = e => { e.stopPropagation(); toggleFavorite(sound); };
     });
 }
 
@@ -141,7 +161,32 @@ function getSoundLabel(sound) {
     return labels[sound] || sound;
 }
 
+const buttonColors = [
+    'bg-pink-500 text-white',
+    'bg-blue-500 text-white',
+    'bg-green-500 text-black',
+    'bg-purple-500 text-white',
+    'bg-orange-500 text-black',
+    'bg-red-500 text-white'
+];
+
+function applyButtonColors() {
+    const buttons = document.querySelectorAll('#soundboard-grid .sound-btn');
+    buttons.forEach((btn, i) => {
+        btn.className = btn.className.replace(/bg-\w+-\d+ text-(white|black)/g, '');
+        const color = buttonColors[i % buttonColors.length];
+        btn.className += ' ' + color;
+    });
+    // Also apply to favorites
+    document.querySelectorAll('#favorites-grid .sound-btn').forEach((btn, i) => {
+        btn.className = btn.className.replace(/bg-\w+-\d+ text-(white|black)/g, '');
+        const color = buttonColors[i % buttonColors.length];
+        btn.className += ' ' + color;
+    });
+}
+
 // Initial render
 renderFavorites();
 updateButtonStars();
 addDownloadButtons();
+applyButtonColors();
